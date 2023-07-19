@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Candidate Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: url("https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z3JleXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60")
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #searchForm {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #searchInput {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+
+    #searchInput::placeholder {
+      color: #999;
+    }
+
+    #searchInput:focus {
+      outline: none;
+    }
+
+    #searchButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182919;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #searchButton:hover {
+      background-color: #45a049;
+    }
+
+    #searchResults {
+      margin-top: 20px;
+    }
+
+    .candidate {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+
+    .candidate strong {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Candidate Search</h1>
+  
+  <form id="searchForm">
+    <input type="text" id="searchInput" placeholder="Enter candidate name or skills">
+    <input type="submit" id="searchButton" value="Search">
+  </form>
+
+  <div id="searchResults"></div>
+
+  <script>
+    // Function to handle form submission
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var searchQuery = document.getElementById('searchInput').value.trim(); // Get search query and trim whitespace
+      
+      // Perform search and display results
+      var searchResults = searchCandidates(searchQuery);
+      displayResults(searchResults);
+    });
+
+    // Function to simulate candidate search
+    function searchCandidates(query) {
+      // In a real project, this function would make an AJAX request to a server-side script
+      // that would search for candidates based on the query and return the results.
+
+      // For demonstration purposes, let's simulate some search results
+      var candidates = [
+        { name: 'John Doe', skills: ['HTML', 'CSS', 'JavaScript'] },
+        { name: 'Jane Smith', skills: ['Java', 'Python', 'SQL'] },
+        { name: 'Mark Johnson', skills: ['C++', 'Ruby', 'PHP'] },
+        // Additional candidates...
+      ];
+
+      var searchResults = [];
+
+      // Perform a simple search by name or skills
+      for (var i = 0; i < candidates.length; i++) {
+        var candidate = candidates[i];
+        if (candidate.name.toLowerCase().includes(query.toLowerCase()) ||
+            candidate.skills.some(skill => skill.toLowerCase().includes(query.toLowerCase()))) {
+          searchResults.push(candidate);
+        }
+      }
+
+      return searchResults;
+    }
+
+    // Function to display search results
+    function displayResults(results) {
+      var searchResultsElement = document.getElementById('searchResults');
+
+      if (results.length === 0) {
+        searchResultsElement.innerHTML = 'No results found.';
+      } else {
+        searchResultsElement.innerHTML = '';
+
+        for (var i = 0; i < results.length; i++) {
+          var candidate = results[i];
+          var candidateElement = document.createElement('div');
+          candidateElement.classList.add('candidate');
+          candidateElement.innerHTML = '<strong>Name:</strong> ' + candidate.name + '<br>' +
+                                       '<strong>Skills:</strong> ' + candidate.skills.join(', ');
+
+          searchResultsElement.appendChild(candidateElement);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
